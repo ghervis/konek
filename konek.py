@@ -13,6 +13,7 @@ import win32api
 import win32con
 import win32gui
 from plyer import notification
+import winshell
 
 
 def resource_path(relative_path):
@@ -41,6 +42,9 @@ class Monitor:
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.withdraw()
         self.send_notification("Konek", "Konek is running in the system tray")
+        # Add to Windows startup if running as packaged exe
+        if getattr(sys, 'frozen', False):
+            self.add_to_startup()
         # Auto-scan on startup
         self.root.after(1000, self.scan)
         # Start tray queue checker
@@ -63,6 +67,27 @@ class Monitor:
                 json.dump(self.saved_devices, f, indent=4)
         except Exception as e:
             self.log_message(f"Error saving devices: {e}")
+
+    def add_to_startup(self):
+        """Create startup shortcut in application folder and add to startup"""
+        try:
+            exe_path = sys.executable
+            exe_dir = os.path.dirname(exe_path)
+            shortcut_path = os.path.join(exe_dir, "Konek.lnk")
+            winshell.CreateShortcut(
+                Path=shortcut_path,
+                Target=exe_path,
+                Icon=(exe_path, 0),
+                Description="Konek Network Monitor"
+            )
+            # Copy to startup folder for auto-start
+            import shutil
+            startup_folder = winshell.startup()
+            startup_shortcut = os.path.join(startup_folder, "Konek.lnk")
+            shutil.copy2(shortcut_path, startup_shortcut)
+            self.log_message("Added Konek to Windows startup")
+        except Exception as e:
+            self.log_message(f"Failed to add to startup: {e}")
 
     def create_gui(self):
         """Create the GUI"""
@@ -186,7 +211,7 @@ class Monitor:
 
         try:
             # Get ARP table - this is INSTANT
-            result = subprocess.run('arp -a', shell=True, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(['arp', '-a'], capture_output=True, text=True, timeout=10, creationflags=subprocess.CREATE_NO_WINDOW)
             if result.returncode == 0:
                 devices = self.parse_arp_output(result.stdout)
                 self.check_device_changes(devices)
