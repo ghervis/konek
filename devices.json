@@ -1,0 +1,30 @@
+{
+    "E8-68-E7-4C-84-06": {
+        "custom_name": "Device-2",
+        "notify": false
+    },
+    "52-84-C4-79-B0-05": {
+        "custom_name": "Device-6",
+        "notify": false
+    },
+    "B0-7D-64-5E-E2-87": {
+        "custom_name": "Device-12",
+        "notify": false
+    },
+    "10-FF-E0-B9-C4-3E": {
+        "custom_name": "Device-18",
+        "notify": false
+    },
+    "FC-B0-DE-45-5E-F7": {
+        "custom_name": "Device-21",
+        "notify": false
+    },
+    "D8-43-AE-5A-A1-1A": {
+        "custom_name": "Device-88",
+        "notify": false
+    },
+    "7A-24-98-F6-DA-B5": {
+        "custom_name": "Device-7",
+        "notify": false
+    }
+}
