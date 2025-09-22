@@ -26,7 +26,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-class UltraFastMonitor:
+class Monitor:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Konek")
@@ -42,7 +42,7 @@ class UltraFastMonitor:
         self.root.withdraw()
         self.send_notification("Konek", "Konek is running in the system tray")
         # Auto-scan on startup
-        self.root.after(1000, self.ultra_fast_scan)
+        self.root.after(1000, self.scan)
         # Start tray queue checker
         self.check_tray_queue()
 
@@ -118,7 +118,7 @@ class UltraFastMonitor:
             notification.notify(
                 title=title,
                 message=message,
-                app_name="Ultra-Fast Monitor",
+                app_name="Monitor",
                 timeout=5
             )
         except Exception as e:
@@ -180,9 +180,9 @@ class UltraFastMonitor:
         return None
 
 
-    def ultra_fast_scan(self):
-        """Ultra-fast scan using ARP table only"""
-        self.log_message("Starting ultra-fast ARP scan...")
+    def scan(self):
+        """scan using ARP table only"""
+        self.log_message("Starting ARP scan...")
 
         try:
             # Get ARP table - this is INSTANT
@@ -195,11 +195,11 @@ class UltraFastMonitor:
                 self.update_display()
                 self.log_message(f"Scan completed - Found {len(devices)} devices")
                 # Schedule next scan in 10 seconds
-                self.root.after(30000, self.ultra_fast_scan)
+                self.root.after(30000, self.scan)
             else:
                 self.log_message("ARP scan failed")
                 # Retry in 10 seconds even on failure
-                self.root.after(30000, self.ultra_fast_scan)
+                self.root.after(30000, self.scan)
 
         except Exception as e:
             self.log_message(f"Scan failed: {e}")
@@ -451,12 +451,12 @@ class UltraFastMonitor:
 
     def run(self):
         """Start the application"""
-        self.log_message("Ultra-Fast Network Monitor started")
+        self.log_message("Network Monitor started")
         self.root.mainloop()
 
 def main():
     """Main application entry point"""
-    app = UltraFastMonitor()
+    app = Monitor()
     app.run()
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
-# Konek - Ultra-Fast Network Monitor
+# Konek - Network Monitor
 
-Konek is a lightweight, ultra-fast network monitoring tool that scans your local network for connected devices using ARP table queries. It provides a real-time GUI display of devices, allows custom naming, notification toggles, and runs discreetly in the system tray.
+Konek is a lightweight network monitoring tool that scans your local network for connected devices using ARP table queries. It provides a real-time GUI display of devices, allows custom naming, notification toggles, and runs discreetly in the system tray.
 
 ## Features
 
-- **Ultra-Fast Scanning**: Uses ARP table for instant network device detection (no slow ping sweeps)
+- **Scanning**: Uses ARP table for instant network device detection (no slow ping sweeps)
 - **Real-Time Monitoring**: Automatically scans every 30 seconds for device changes
 - **Custom Device Naming**: Assign friendly names to devices for easy identification
 - **Notification System**: Get Windows notifications when devices connect/disconnect
